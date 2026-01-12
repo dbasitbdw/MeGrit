@@ -8,17 +8,17 @@
 
 ## 📸 Screenshots / Tangkapan Layar
 
-| Login Screen | Dashboard (Empty) |
+| Splash Screen | Login Screen |
 |:---:|:---:|
-| ![Login](screenshots/login.png) | ![Dashboard Empty](screenshots/dashboard_empty.png) |
+| ![Splash](screenshots/splash.png) | ![Login](screenshots/login.png) |
 
-| Dashboard (Filled) | Add Activity |
+| Dashboard (Empty) | Dashboard (Filled) |
 |:---:|:---:|
-| ![Dashboard Filled](screenshots/dashboard_filled.png) | ![Add Task](screenshots/add_task.png) |
+| ![Dashboard Empty](screenshots/dashboard_empty.png) | ![Dashboard Filled](screenshots/dashboard_filled.png) |
 
-| Pomodoro Timer |
-|:---:|
-| ![Pomodoro](screenshots/pomodoro.png) |
+| Add Activity | Pomodoro Timer |
+|:---:|:---:|
+| ![Add Task](screenshots/add_task.png) | ![Pomodoro](screenshots/pomodoro.png) |
 
 ---
 
