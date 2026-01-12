@@ -41,18 +41,15 @@ class AddTaskPage(QWidget):
     def setup_ui(self):
         """Initialize the add task UI"""
         self.content_layout = QVBoxLayout(self)
-    def setup_ui(self):
-        """Initialize the add task UI"""
-        self.content_layout = QVBoxLayout(self)
         self.content_layout.setContentsMargins(30, 20, 30, 10) 
         self.content_layout.setAlignment(Qt.AlignTop)
       
-        self.add_label = QLabel("Add Activity")
+        self.add_label = QLabel("ADD ACTIVITY")
         self.add_label.setStyleSheet("""
             QLabel {
                 font-size: 28px;
                 color: #000000;
-                font-family: 'Dreaming Outloud AllCaps';
+                font-family: 'Poppins';
                 font-weight: bold;
             }
         """)
