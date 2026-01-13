@@ -50,7 +50,11 @@ class AddTaskPage(QWidget):
                 font-size: 28px;
                 color: #000000;
                 font-family: 'Poppins';
+<<<<<<< HEAD
                 font-weight: medium;
+=======
+                font-weight: bold;
+>>>>>>> aaf4fc7cf0f3c82b9a011a8b7e5e02e84620cde7
             }
         """)
         self.content_layout.addWidget(self.add_label)
@@ -294,7 +298,6 @@ class AddTaskPage(QWidget):
             btn.setIconSize(QSize(25, 25))
 
     def save_task(self):
-        """Save task to TaskManager"""
         description = self.add_input.text().strip()
         if not description:
             QMessageBox.warning(self, "Input Error", "Please enter activity description!")
@@ -323,12 +326,10 @@ class AddTaskPage(QWidget):
             print("Task Manager not connected!")
 
     def cancel_task(self):
-        """Cancel and reset form"""
         self.reset_form()
         self.cancelled.emit()
     
     def reset_form(self):
-        """Reset all input fields"""
         self.add_input.clear()
         buttons = self.category_group.buttons()
         if buttons:
@@ -345,7 +346,7 @@ class AddTaskPage(QWidget):
         return super().eventFilter(source, event)
 
     def open_time_picker(self):
-        """Open custom time picker dialog"""
+    
         dialog = TimePickerDialog(self, self.time_input.time())
         if dialog.exec_():
             new_time = dialog.get_time()
