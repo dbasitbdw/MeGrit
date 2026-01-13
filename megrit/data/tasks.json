@@ -1,14 +1,26 @@
 [
     {
-        "id": 2,
-        "description": "MENABUNG",
+        "id": 3,
+        "description": "Menabung Uang 10k",
         "category": "money",
-        "priority": "Emergency",
+        "priority": "Routine",
         "status": "Pending",
         "username": "BUDI",
-        "created_at": "2026-01-12T15:56:00",
-        "updated_at": "2026-01-12T15:57:21.616501",
-        "scheduled_date": "12/01/26",
-        "scheduled_time": "15.56"
+        "created_at": "2026-01-13T12:57:00",
+        "updated_at": "2026-01-13T13:09:29.153726",
+        "scheduled_date": "13/01/26",
+        "scheduled_time": "12.57"
+    },
+    {
+        "id": 4,
+        "description": "Jajan Cilok",
+        "category": "money",
+        "priority": "Low",
+        "status": "Pending",
+        "username": "BUDI",
+        "created_at": "2026-01-13T13:04:00",
+        "updated_at": "2026-01-13T13:09:29.577633",
+        "scheduled_date": "13/01/26",
+        "scheduled_time": "13.04"
     }
 ]

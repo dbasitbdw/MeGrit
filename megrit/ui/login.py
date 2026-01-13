@@ -17,11 +17,11 @@ class LoginScreen(QWidget):
         
         self.bg.setPixmap(QPixmap(login_path))
         self.bg.setScaledContents(True)
-        self.bg.resize(800, 450)
+        self.bg.resize(800, 650) 
 
         self.username_input = QLineEdit(self)
         self.username_input.setPlaceholderText("enter here")
-        self.username_input.setGeometry(200, 300, 400, 40)
+        self.username_input.setGeometry(200, 420, 300, 40) 
         self.load_saved_user()
         self.username_input.setStyleSheet("""
             QLineEdit {
@@ -35,7 +35,8 @@ class LoginScreen(QWidget):
         self.username_input.returnPressed.connect(self.attempt_login)
 
         self.enter_btn = QPushButton("Enter", self)
-        self.enter_btn.setGeometry(620, 300, 80, 40)
+        self.username_input.setGeometry(200, 420, 320, 40)
+        self.enter_btn.setGeometry(530, 420, 80, 40)
         self.enter_btn.setStyleSheet("""
             QPushButton {
                 background-color: #4CAF50;

@@ -5,7 +5,7 @@ class Logout:
     def confirm(parent):
         msg = QMessageBox(parent)
         msg.setWindowTitle('Logout')
-        msg.setText('Apakah anda yakin ingin keluar?')
+        msg.setText('Are you sure you want to logout?')
         msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         msg.setDefaultButton(QMessageBox.No)
         msg.setStyleSheet("""

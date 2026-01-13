@@ -11,7 +11,7 @@ class ProgressCircle(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.progress = 1.0
-        self.setMinimumSize(320, 320) #
+        self.setMinimumSize(480, 480) 
 
     def set_progress(self, value):
         self.progress = value
@@ -26,7 +26,7 @@ class ProgressCircle(QWidget):
         center_x = width // 2
         center_y = height // 2
         
-        stroke = 30 
+        stroke = 60 
         radius = min(width, height) // 2 - stroke 
         
         rect = QRectF(center_x - radius, center_y - radius, radius * 2, radius * 2)

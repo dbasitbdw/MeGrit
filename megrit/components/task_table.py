@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import (
     QTableWidget, QTableWidgetItem, QHeaderView, QFrame,
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QProgressBar,
-    QCheckBox
+    QCheckBox, QPushButton, QMenu, QAction
 )
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt, QSize, pyqtSignal
@@ -9,7 +9,8 @@ import os
 
 class TaskTable(QTableWidget):
   
-    task_status_changed = pyqtSignal()
+    task_status_changed = pyqtSignal(int, bool)
+    task_deleted = pyqtSignal(int)
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -56,38 +57,94 @@ class TaskTable(QTableWidget):
             self.setItem(row, 1, create_item(task.get('description', ''), 1))
             self.setItem(row, 2, create_item(task.get('category', ''), 2))
             self.setItem(row, 3, create_item(task.get('priority', ''), 3))
-            self.setItem(row, 4, create_item(task.get('status', ''), 4))
-    
+            
             checkbox_widget = QWidget()
+            checkbox_widget.setStyleSheet("background: transparent;")
             checkbox_layout = QHBoxLayout(checkbox_widget)
             checkbox_layout.setAlignment(Qt.AlignCenter)
             checkbox_layout.setContentsMargins(0, 0, 0, 0)
             
             cb = QCheckBox()
+            cb.setStyleSheet("""
+                QCheckBox::indicator {
+                    width: 20px;
+                    height: 20px;
+                    border: 2px solid black;
+                    border-radius: 4px;
+                    background: white;
+                }
+                QCheckBox::indicator:checked {
+                    image: url("/home/db/Tugas/Project Python Kelompok 1/megrit/assets/icon/check.svg");
+                }
+            """)
             cb.setChecked(is_completed)
             cb.setProperty("task_id", task_id)
             cb.stateChanged.connect(lambda state, tid=task_id: self.on_checkbox_changed(state, tid))
             
             checkbox_layout.addWidget(cb)
-   
-            self.setCellWidget(row, 5, checkbox_widget)
+            self.setCellWidget(row, 4, checkbox_widget)
+
+            action_widget = QWidget()
+            action_widget.setStyleSheet("background: transparent;")
+            action_layout = QHBoxLayout(action_widget)
+            action_layout.setAlignment(Qt.AlignCenter)
+            action_layout.setContentsMargins(0, 0, 0, 0) 
+            action_layout.setSpacing(0)
+
+            btn_menu = QPushButton("⋮")
+            btn_menu.setFixedSize(30, 30)
+            btn_menu.setStyleSheet("""
+                QPushButton {
+                    background: transparent;
+                    border: none;
+                    font-size: 18px; 
+                    font-weight: bold;
+                    color: #555;
+                    padding: 0px; /* Force 0 padding */
+                    margin: 0px;  /* Force 0 margin */
+                }
+                QPushButton:hover {
+                    color: #000;
+                    background-color: rgba(0,0,0,0.1);
+                    border-radius: 15px;
+                }
+                QPushButton:pressed {
+                    background-color: rgba(0,0,0,0.2);
+                    border-radius: 15px;
+                }
+                QPushButton::menu-indicator {
+                    image: none;
+                }
+            """)
+            
+            menu = QMenu(self)
+            delete_action = QAction("Hapus", self)
+            delete_action.triggered.connect(lambda checked, tid=task_id: self.on_delete_task(tid))
+            menu.addAction(delete_action)
+            
+            btn_menu.setMenu(menu)
+
+            action_layout.addWidget(btn_menu)
+            self.setCellWidget(row, 5, action_widget)
             
         self.resizeRowsToContents()
             
     def on_checkbox_changed(self, state, task_id):
-        self.parent_dashboard_callback(task_id, state == Qt.Checked)
+        self.task_status_changed.emit(task_id, state == Qt.Checked)
         
+    def on_delete_task(self, task_id):
+        self.task_deleted.emit(task_id)
+
     def set_callback(self, callback):
         self.parent_dashboard_callback = callback
-
     
     def setup_ui(self):
         self.setColumnCount(6)
         self.setHorizontalHeaderLabels(["Date & time", "Description", "Category", "Priority", "Status", "Act"])
         self.setWordWrap(True)
 
+        self.setMinimumHeight(400) 
         
-        self.setFixedHeight(150) 
         header = self.horizontalHeader()
         header.setSectionResizeMode(0, QHeaderView.Fixed)
         header.setSectionResizeMode(1, QHeaderView.Stretch)
@@ -99,8 +156,8 @@ class TaskTable(QTableWidget):
         self.setColumnWidth(0, 100) 
         self.setColumnWidth(2, 100) 
         self.setColumnWidth(3, 100) 
-        self.setColumnWidth(4, 80)  
-        self.setColumnWidth(5, 80)  
+        self.setColumnWidth(4, 60)  
+        self.setColumnWidth(5, 50)  
 
         self.verticalHeader().setVisible(False) 
         self.setShowGrid(False)                
@@ -143,6 +200,20 @@ class TaskTable(QTableWidget):
                 border-bottom: none; 
                 padding: 5px;
                 color: #000000;
+            }
+            QMenu {
+                background-color: white;
+                border: 1px solid #ccc;
+                font-family: 'Poppins';
+                color: black;
+            }
+            QMenu::item {
+                padding: 5px 20px;
+                color: black;
+            }
+            QMenu::item:selected {
+                background-color: #f0f0f0;
+                color: black;
             }
         """)
 

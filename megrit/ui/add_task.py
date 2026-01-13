@@ -50,7 +50,7 @@ class AddTaskPage(QWidget):
                 font-size: 28px;
                 color: #000000;
                 font-family: 'Poppins';
-                font-weight: bold;
+                font-weight: medium;
             }
         """)
         self.content_layout.addWidget(self.add_label)

@@ -3,7 +3,6 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt, pyqtSignal
 
-# Import components
 from megrit.components.navbar import Navbar
 from megrit.components.logout import Logout
 from megrit.components.header import HeaderWidget
@@ -21,7 +20,6 @@ from megrit.logic.priority_manager import PriorityManager
 
 
 class Home(QWidget):
-    """Home page with To-Do List Dashboard"""
 
     def __init__(self):
         super().__init__()
@@ -99,7 +97,9 @@ class Home(QWidget):
         self.content_layout.addLayout(self.status_layout)
         
         self.table = TaskTable()
-        self.table.set_callback(self.on_task_status_changed)
+        self.table.task_status_changed.connect(self.on_task_status_changed)
+        self.table.task_deleted.connect(self.on_task_deleted)
+        
         self.content_layout.addWidget(self.table)
         
         self.bottom_wrapper = QWidget()
@@ -133,9 +133,23 @@ class Home(QWidget):
                 from PyQt5.QtWidgets import QMessageBox
                 msg = QMessageBox(self)
                 msg.setWindowTitle("Search Result")
-                msg.setText("No tasks found matching your query.")
+                msg.setText("What you are looking for was not found")
                 msg.setIcon(QMessageBox.Information)
-                msg.setStyleSheet("QMessageBox { background-color: #fffaf0; } QMessageBox QLabel { color: black; }")
+                msg.setStyleSheet("""
+                    QMessageBox { background-color: #fffaf0; } 
+                    QMessageBox QLabel { color: black; }
+                    QPushButton {
+                        background-color: #e8a8a6;
+                        color: black;
+                        border: 1px solid gray;
+                        border-radius: 5px;
+                        padding: 5px 15px;
+                        font-family: 'Poppins';
+                    }
+                    QPushButton:hover {
+                        background-color: #d89896;
+                    }
+                """)
                 msg.exec_()
                 self.table.load_tasks([]) 
             else:
@@ -162,9 +176,56 @@ class Home(QWidget):
         self.pbar.update_progress(streak_count)
 
     def on_task_status_changed(self, task_id, is_completed):
-
         self.task_manager.update_task_status(task_id, is_completed)
         self.refresh_data()
+
+    def on_task_deleted(self, task_id):
+        from PyQt5.QtWidgets import QMessageBox
+        msg = QMessageBox(self)
+        msg.setWindowTitle("Hapus Task")
+        msg.setText("Apakah anda yakin ingin menghapus task ini?")
+        msg.setIcon(QMessageBox.Question)
+        msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        
+        msg.setStyleSheet("QMessageBox { background-color: #fffaf0; } QMessageBox QLabel { color: black; }")
+        
+        yes_btn = msg.button(QMessageBox.Yes)
+        yes_btn.setText("Yes")
+        yes_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #e8a8a6;
+                color: black; 
+                border: 1px solid gray;
+                border-radius: 5px;
+                padding: 5px 15px;
+                font-family: 'Poppins';
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #d89896;
+            }
+        """)
+        
+        no_btn = msg.button(QMessageBox.No)
+        no_btn.setText("No")
+        no_btn.setStyleSheet("""
+            QPushButton {
+                background-color: white;
+                color: black;
+                border: 1px solid gray;
+                border-radius: 5px;
+                padding: 5px 15px;
+                font-family: 'Poppins';
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #f0f0f0;
+            }
+        """)
+        
+        if msg.exec_() == QMessageBox.Yes:
+            self.task_manager.delete_task(task_id)
+            self.refresh_data()
     
     def set_username(self, username):
      

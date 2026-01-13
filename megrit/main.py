@@ -15,7 +15,7 @@ class MainApp(QWidget):
         self.setWindowTitle("MeGrit")
         self.setStyleSheet("background-color: #fef8e9;") 
         
-        self.setFixedSize(800, 450)
+        self.setFixedSize(800, 650)
         
         self.layout = QVBoxLayout(self)
         self.layout.setContentsMargins(0, 0, 0, 0)
@@ -39,17 +39,17 @@ class MainApp(QWidget):
 
     def show_login(self):
         self.stack.setCurrentIndex(1)
-        self.setFixedSize(800, 450) 
+        self.setFixedSize(800, 650) 
 
     def show_dashboard(self, username):
         print(f"User logged in: {username}")
         self.dashboard.set_username(username)
-        self.setFixedSize(800, 450)
+        self.setFixedSize(800, 650)
         self.stack.setCurrentIndex(2)
 
     def handle_logout(self):
         self.stack.setCurrentIndex(0)
-        self.setFixedSize(800, 450)
+        self.setFixedSize(800, 650)
         self.login.username_input.clear() 
         self.stack.removeWidget(self.splash)
         self.splash = SplashScreen()
